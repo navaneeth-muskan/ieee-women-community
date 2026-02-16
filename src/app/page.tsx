@@ -7,13 +7,15 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { ArrowRight, Star, Globe, ShieldCheck } from 'lucide-react';
 
 export default function Home() {
+  const heroImage = PlaceHolderImages.find(img => img.id === 'hero-empower')?.imageUrl;
+  
   const upcomingEvents = [
     {
       id: '1',
       title: 'Women in AI Summit',
       date: 'Dec 15, 2024',
       location: 'Main Auditorium',
-      image: PlaceHolderImages.find(img => img.id === 'event-workshop')?.imageUrl || '',
+      image: PlaceHolderImages.find(img => img.id === 'event-workshop')?.imageUrl,
       category: 'Workshop',
     },
     {
@@ -21,7 +23,7 @@ export default function Home() {
       title: 'Tech Leadership Panel',
       date: 'Jan 10, 2025',
       location: 'Virtual Event',
-      image: PlaceHolderImages.find(img => img.id === 'event-networking')?.imageUrl || '',
+      image: PlaceHolderImages.find(img => img.id === 'event-networking')?.imageUrl,
       category: 'Seminar',
     }
   ];
@@ -31,13 +33,15 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative py-24 md:py-32 overflow-hidden bg-wiePurple">
         <div className="absolute inset-0 z-0">
-          <Image
-            src={PlaceHolderImages.find(img => img.id === 'hero-empower')?.imageUrl || ''}
-            alt="Hero background"
-            fill
-            className="object-cover opacity-20"
-            priority
-          />
+          {heroImage && (
+            <Image
+              src={heroImage}
+              alt="Hero background"
+              fill
+              className="object-cover opacity-20"
+              priority
+            />
+          )}
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <h1 className="font-headline text-4xl md:text-6xl font-bold mb-6">

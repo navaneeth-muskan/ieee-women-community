@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-empower",
+      "description": "Women engineers working together",
+      "imageUrl": "https://images.unsplash.com/photo-1573496547222-fa7a24b730f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx3b21lbiUyMGVuZ2luZWVyaW5nfGVufDB8fHx8MTc3MTIxOTAwOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "women engineering"
+    },
+    {
+      "id": "event-workshop",
+      "description": "Tech workshop session",
+      "imageUrl": "https://images.unsplash.com/photo-1580835920765-c35ee0985bbd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx0ZWNoJTIwd29ya3Nob3B8ZW58MHx8fHwxNzcxMjE5MDA4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tech workshop"
+    },
+    {
+      "id": "event-networking",
+      "description": "Networking event",
+      "imageUrl": "https://images.unsplash.com/photo-1764726354430-1b85fa37234f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwcm9mZXNzaW9uYWwlMjBuZXR3b3JraW5nfGVufDB8fHx8MTc3MTEyMjM3Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "professional networking"
+    },
+    {
+      "id": "past-event-1",
+      "description": "Robotics Seminar",
+      "imageUrl": "https://images.unsplash.com/photo-1627560985113-ab67e8031f40?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxyb2JvdGljcyUyMHNlbWluYXJ8ZW58MHx8fHwxNzcxMjE5MDA4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "robotics seminar"
+    },
+    {
+      "id": "past-event-2",
+      "description": "Leadership Summit",
+      "imageUrl": "https://images.unsplash.com/photo-1766142903386-6de2a43b66ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsZWFkZXJzaGlwJTIwc3VtbWl0fGVufDB8fHx8MTc3MTIxOTAwOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "leadership summit"
+    },
+    {
+      "id": "past-event-3",
+      "description": "Coding Bootcamp",
+      "imageUrl": "https://images.unsplash.com/photo-1565687981296-535f09db714e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjb2RpbmclMjBib290Y2FtcHxlbnwwfHx8fDE3NzEyMTkwMDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "coding bootcamp"
+    },
+    {
+      "id": "event-networking",
+      "description": "Networking event",
+      "imageUrl": "https://images.unsplash.com/photo-1769839271768-aee5469799ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwcm9mZXNzaW9uYWwlMjBuZXR3b3JraW5nfGVufDB8fHx8MTc3MTEyMjM3Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "professional networking"
+    }
+  ]
 }

@@ -11,7 +11,7 @@ interface EventCardProps {
   title: string;
   date: string;
   location: string;
-  image: string;
+  image?: string;
   category: string;
   isArchived?: boolean;
 }
@@ -19,14 +19,16 @@ interface EventCardProps {
 export function EventCard({ id, title, date, location, image, category, isArchived }: EventCardProps) {
   return (
     <Card className="overflow-hidden group hover:shadow-lg transition-all duration-300 border-border">
-      <div className="relative h-48 overflow-hidden">
-        <Image 
-          src={image} 
-          alt={title} 
-          fill 
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
-          data-ai-hint="event engineering"
-        />
+      <div className="relative h-48 overflow-hidden bg-muted">
+        {image && (
+          <Image 
+            src={image} 
+            alt={title} 
+            fill 
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            data-ai-hint="event engineering"
+          />
+        )}
         <div className="absolute top-4 left-4">
           <Badge className={isArchived ? "bg-muted text-muted-foreground" : "bg-wiePurple"}>
             {category}

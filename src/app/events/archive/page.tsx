@@ -7,31 +7,31 @@ export default function EventArchivePage() {
     {
       id: 'p1',
       title: 'Robotics Seminar 2024',
-      image: PlaceHolderImages.find(img => img.id === 'past-event-1')?.imageUrl || '',
+      image: PlaceHolderImages.find(img => img.id === 'past-event-1')?.imageUrl || 'https://picsum.photos/seed/wie-archive-1/800/600',
       category: 'Workshops',
     },
     {
       id: 'p2',
       title: 'Leadership Summit',
-      image: PlaceHolderImages.find(img => img.id === 'past-event-2')?.imageUrl || '',
+      image: PlaceHolderImages.find(img => img.id === 'past-event-2')?.imageUrl || 'https://picsum.photos/seed/wie-archive-2/800/600',
       category: 'Socials',
     },
     {
       id: 'p3',
       title: 'Annual Coding Bootcamp',
-      image: PlaceHolderImages.find(img => img.id === 'past-event-3')?.imageUrl || '',
+      image: PlaceHolderImages.find(img => img.id === 'past-event-3')?.imageUrl || 'https://picsum.photos/seed/wie-archive-3/800/600',
       category: 'Seminars',
     },
     {
       id: 'p4',
       title: 'Networking Mixer',
-      image: PlaceHolderImages.find(img => img.id === 'event-networking')?.imageUrl || '',
+      image: PlaceHolderImages.find(img => img.id === 'event-networking')?.imageUrl || 'https://picsum.photos/seed/wie-archive-4/800/600',
       category: 'Socials',
     },
     {
       id: 'p5',
       title: 'Cybersecurity Intensive',
-      image: PlaceHolderImages.find(img => img.id === 'event-workshop')?.imageUrl || '',
+      image: PlaceHolderImages.find(img => img.id === 'event-workshop')?.imageUrl || 'https://picsum.photos/seed/wie-archive-5/800/600',
       category: 'Workshops',
     },
   ];
