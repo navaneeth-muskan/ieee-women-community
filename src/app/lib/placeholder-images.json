@@ -1,0 +1,41 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "hero-empower",
+      "description": "Women engineers working together",
+      "imageUrl": "https://picsum.photos/seed/wie-1/1200/600",
+      "imageHint": "women engineering"
+    },
+    {
+      "id": "event-workshop",
+      "description": "Tech workshop session",
+      "imageUrl": "https://picsum.photos/seed/wie-2/600/400",
+      "imageHint": "tech workshop"
+    },
+    {
+      "id": "event-networking",
+      "description": "Networking event",
+      "imageUrl": "https://picsum.photos/seed/wie-3/600/400",
+      "imageHint": "professional networking"
+    },
+    {
+      "id": "past-event-1",
+      "description": "Robotics Seminar",
+      "imageUrl": "https://picsum.photos/seed/wie-4/800/600",
+      "imageHint": "robotics seminar"
+    },
+    {
+      "id": "past-event-2",
+      "description": "Leadership Summit",
+      "imageUrl": "https://picsum.photos/seed/wie-5/800/600",
+      "imageHint": "leadership summit"
+    },
+    {
+      "id": "past-event-3",
+      "description": "Coding Bootcamp",
+      "imageUrl": "https://picsum.photos/seed/wie-6/800/600",
+      "imageHint": "coding bootcamp"
+    }
+  ]
+}
