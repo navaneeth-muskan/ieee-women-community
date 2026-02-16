@@ -1,0 +1,310 @@
+{
+  "entities": {
+    "Event": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Event",
+      "type": "object",
+      "description": "Represents an upcoming or past event organized by IEEE WIE chapters, including details for announcements, registration, and archiving.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Event entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the event."
+        },
+        "date": {
+          "type": "string",
+          "description": "The date and time when the event is scheduled to occur.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the event, including its purpose, agenda, and target audience."
+        },
+        "registrationLink": {
+          "type": "string",
+          "description": "The URL for event registration, typically an integrated Google Form or other external registration system.",
+          "format": "uri"
+        },
+        "isArchived": {
+          "type": "boolean",
+          "description": "Indicates whether the event has been moved to the archive section after its conclusion."
+        },
+        "imageUrls": {
+          "type": "array",
+          "description": "A list of URLs for images associated with the event, used in galleries or promotional content.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "category": {
+          "type": "string",
+          "description": "The category of the event, e.g., 'Workshops', 'Seminars', 'Socials', used for filtering in the past events gallery."
+        },
+        "outcomes": {
+          "type": "string",
+          "description": "A summary of the outcomes or achievements of the event, especially for archived events, detailing key takeaways or impact."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "date",
+        "description",
+        "registrationLink",
+        "isArchived",
+        "category"
+      ]
+    },
+    "Application": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Application",
+      "type": "object",
+      "description": "Represents an application submitted by a user for a specific role within IEEE WIE, managing eligibility and status.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Application entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the unique identifier of the user (from UserProfile) who submitted the application. (Relationship: UserProfile 1:N Application)"
+        },
+        "role": {
+          "type": "string",
+          "description": "The specific role within IEEE WIE applied for, such as 'Core', 'Associate', or 'Coordinator'."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the application, e.g., 'pending', 'approved', 'rejected', 'withdrawn'."
+        },
+        "resumeUrl": {
+          "type": "string",
+          "description": "The URL to the applicant's resume or Curriculum Vitae (CV).",
+          "format": "uri"
+        },
+        "submissionDate": {
+          "type": "string",
+          "description": "The date and time when the application was officially submitted.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "role",
+        "status",
+        "resumeUrl",
+        "submissionDate"
+      ]
+    },
+    "Feedback": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Feedback",
+      "type": "object",
+      "description": "Represents feedback submitted by a user for a specific event, collecting ratings and comments.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Feedback entity."
+        },
+        "eventId": {
+          "type": "string",
+          "description": "Reference to the unique identifier of the event for which feedback is being provided. (Relationship: Event 1:N Feedback)"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the unique identifier of the user (from UserProfile) who submitted the feedback. (Relationship: UserProfile 1:N Feedback)"
+        },
+        "rating": {
+          "type": "number",
+          "description": "The numerical rating given for the event, typically an integer value on a defined scale."
+        },
+        "comments": {
+          "type": "string",
+          "description": "Detailed comments, suggestions, or testimonials provided by the user about the event."
+        },
+        "submissionDate": {
+          "type": "string",
+          "description": "The date and time when the feedback was officially submitted.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "eventId",
+        "userId",
+        "rating",
+        "comments",
+        "submissionDate"
+      ]
+    },
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Stores non-authentication related information about a user or member within the IEEE WIE ecosystem, used for features like form auto-completion and personalized experiences.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserProfile entity, corresponding to the user's ID from an external authentication system."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the user."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The primary email address of the user, used for communication and identification.",
+          "format": "email"
+        },
+        "enrollmentDate": {
+          "type": "string",
+          "description": "The date when the user's profile was first created or they were enrolled as a member.",
+          "format": "date-time"
+        },
+        "membershipStatus": {
+          "type": "string",
+          "description": "The current membership status of the user (e.g., 'active', 'inactive', 'alumni', 'pending')."
+        },
+        "contactNumber": {
+          "type": "string",
+          "description": "The user's contact telephone number, often used for official communications."
+        },
+        "linkedInUrl": {
+          "type": "string",
+          "description": "The URL to the user's LinkedIn profile, useful for professional networking and recruitment.",
+          "format": "uri"
+        },
+        "appliedApplicationIds": {
+          "type": "array",
+          "description": "An array of IDs referencing applications previously submitted by this user. (Relationship: UserProfile 1:N Application)",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "enrollmentDate",
+        "membershipStatus"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores non-authentication related information for each user. Access: Authenticated users can read/write their own profile where `userId` matches `request.auth.uid`. Used for features like form auto-completion and personalized experiences.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user, corresponding to `request.auth.uid`."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admin/{adminId}",
+        "definition": {
+          "entityName": "AdminRole",
+          "schema": {
+            "$ref": "#/backend/entities/AdminRole"
+          },
+          "description": "Dedicated collection for Database Access Control (DBAC). The existence of a document with `adminId` as the UID indicates an administrator. Rules check `exists()` for admin privileges. No custom claims are used, only database state. Includes `uid` and `assignedAt` fields.",
+          "params": [
+            {
+              "name": "adminId",
+              "description": "The unique identifier of the user designated as an administrator."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/events/{eventId}",
+        "definition": {
+          "entityName": "Event",
+          "schema": {
+            "$ref": "#/backend/entities/Event"
+          },
+          "description": "Stores active and upcoming events. This collection is publicly readable for announcements and registration. Administrators have write (create, update, delete) access. Segregated from archived events for query efficiency and clear security posture.",
+          "params": [
+            {
+              "name": "eventId",
+              "description": "The unique identifier for the event."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/archivedEvents/{eventId}",
+        "definition": {
+          "entityName": "Event",
+          "schema": {
+            "$ref": "#/backend/entities/Event"
+          },
+          "description": "Stores events that have concluded and are moved to the archive section. This collection is publicly readable, serving as a past events gallery. Administrators have write access to update details or manage its archived status. Segregated from active events to simplify list operations.",
+          "params": [
+            {
+              "name": "eventId",
+              "description": "The unique identifier for the archived event."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/applications/{applicationId}",
+        "definition": {
+          "entityName": "Application",
+          "schema": {
+            "$ref": "#/backend/entities/Application"
+          },
+          "description": "Stores all member recruitment applications. Documents include a denormalized `userId` field to ensure Authorization Independence. Authenticated users can create and read/update their own applications. Administrators can read/update all applications.",
+          "params": [
+            {
+              "name": "applicationId",
+              "description": "The unique identifier for the application."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/feedback/{feedbackId}",
+        "definition": {
+          "entityName": "Feedback",
+          "schema": {
+            "$ref": "#/backend/entities/Feedback"
+          },
+          "description": "Stores feedback submitted by users for specific events. Documents include denormalized `userId` and `eventId` fields for Authorization Independence. Authenticated users can create and read/update their own feedback. Administrators can read/update all feedback.",
+          "params": [
+            {
+              "name": "feedbackId",
+              "description": "The unique identifier for the feedback submission."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed following the core principles of Authorization Independence, Structural Segregation, and DBAC to ensure a secure, scalable, and easily debuggable system. \n\n**Authorization Independence:**\n1.  **User Profiles (`/users/{userId}`):** User profiles are stored at `/users/{userId}`, where `userId` directly corresponds to `request.auth.uid`. This path-based ownership makes authorization atomic and eliminates the need for `get()` calls to verify ownership, adhering to the principle of authorization independence.\n2.  **Applications (`/applications/{applicationId}`):** Each `Application` document includes a `userId` field. This denormalizes the ownership context directly into the application document. For users, access rules can directly check `resource.data.userId == request.auth.uid`. For administrators, a separate `roles_admin` collection (explained below) provides authorization without needing to traverse user profiles or perform `get()` operations on parent documents.\n3.  **Feedback (`/feedback/{feedbackId}`):** Similar to applications, each `Feedback` document includes both `userId` and `eventId` fields. This ensures that a user's feedback is self-contained with its ownership information (`resource.data.userId == request.auth.uid`) and context (`eventId`), again preventing expensive or complex `get()` calls in security rules. Admin access is also handled via the `roles_admin` collection.\n\n**Structural Segregation (QAPs - Rules are not Filters):**\n1.  **Events (`/events` and `/archivedEvents`):** Events are segregated into two top-level collections: `/events` for active/upcoming events and `/archivedEvents` for past events. This segregation directly supports QAPs by ensuring that `list` operations on either collection return a homogeneous set of documents that meet the desired state (active vs. archived). Security rules don't need to filter on an `isArchived` field, making them simpler and more efficient. Public users can read from both collections, while administrators have write access to both, facilitating event management and archiving workflows.\n2.  **Global Roles (`/roles_admin/{adminId}`):** A dedicated collection, `/roles_admin`, is used for Database Access Control (DBAC). An empty document within this collection, keyed by the administrator's `uid`, explicitly grants administrative privileges. This design allows security rules to check for admin status using an atomic `exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid))` call, which is highly efficient and independent of other data structures.\n\nBy implementing these strategies, the Firestore structure minimizes complexity in security rules, improves query performance by avoiding filters, and maintains a clear, predictable authorization model that is easily debuggable and scalable."
+  }
+}

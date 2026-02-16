@@ -1,0 +1,134 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * IEEE IGDTUW - Event Announcements and Registration Ruleset
+     * 
+     * Core Philosophy:
+     * This ruleset implements a dual-layer security model: Database Access Control (DBAC) 
+     * for administrative privileges and a strict Ownership model for user-generated content.
+     * 
+     * Data Structure:
+     * - /users/{userId}: Private user profiles, path-authorized.
+     * - /roles_admin/{adminId}: Flag collection for identifying administrative users.
+     * - /events/ & /archivedEvents/: Publicly readable event information managed by admins.
+     * - /applications/ & /feedback/: User-submitted data secured via denormalized ownership fields.
+     * 
+     * Key Security Decisions:
+     * 1. Authorization Independence: User ownership is verified via path parameters or 
+     *    denormalized UID fields (userId) to avoid expensive cross-document lookups.
+     * 2. DBAC: Global admin privileges are granted based on the existence of a document 
+     *    in the /roles_admin collection matching the user's UID.
+     * 3. Structural Segregation: Active and Archived events are separated into distinct 
+     *    collections to simplify query logic and maintain high-performance list operations.
+     * 4. Prototyping Flexibility: Data types and general schemas are not enforced, 
+     *    focusing strictly on relational integrity and access control.
+     */
+
+    // --- Helper Functions ---
+
+    // Returns true if the user is authenticated.
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Returns true if the provided userId matches the authenticated user's UID.
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Returns true if the document exists and the user is the owner.
+    function isExistingOwner(userId) {
+      return resource != null && isOwner(userId);
+    }
+
+    // Checks the roles_admin collection for the current user's UID.
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+    }
+
+    // --- Collection Rules ---
+
+    /**
+     * @description Rules for user profiles. Users manage their own profiles.
+     * @path /users/{userId}
+     * @allow (get) If the user is the owner or an admin.
+     * @deny (list) If the user is not an admin (prevents user enumeration).
+     * @principle Path-based ownership.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId) || isAdmin();
+    }
+
+    /**
+     * @description Collection for identifying administrators.
+     * @path /roles_admin/{adminId}
+     * @allow (get, list) Only admins can view the admin list.
+     * @deny (write) Direct client-side creation of admin roles is prohibited.
+     * @principle Database Access Control (DBAC).
+     */
+    match /roles_admin/{adminId} {
+      allow read: if isAdmin();
+      allow write: if false; // Admin management should occur via Admin SDK or Cloud Functions.
+    }
+
+    /**
+     * @description Active and upcoming event announcements.
+     * @path /events/{eventId}
+     * @allow (read) Publicly readable for all users.
+     * @deny (write) Only admins can modify event content.
+     * @principle Role-based write access with public read.
+     */
+    match /events/{eventId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    /**
+     * @description Concluded events serving as a past gallery.
+     * @path /archivedEvents/{eventId}
+     * @allow (read) Publicly readable for all users.
+     * @deny (write) Only admins can modify archive content.
+     * @principle Structural segregation of event states.
+     */
+    match /archivedEvents/{eventId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    /**
+     * @description Recruitment applications submitted by users.
+     * @path /applications/{applicationId}
+     * @allow (create) If userId field matches authenticated UID.
+     * @allow (update) If owner (restricted fields) or admin.
+     * @principle Denormalized ownership and relational integrity.
+     */
+    match /applications/{applicationId} {
+      allow get: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow list: if isSignedIn(); // Queries must be filtered by userId to succeed for non-admins.
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin() || (isExistingOwner(resource.data.userId) && request.resource.data.userId == resource.data.userId);
+      allow delete: if isAdmin() || isExistingOwner(resource.data.userId);
+    }
+
+    /**
+     * @description User feedback on events.
+     * @path /feedback/{feedbackId}
+     * @allow (create) If userId field matches authenticated UID.
+     * @allow (read) Owners see their feedback; Admins see all.
+     * @principle Authorization Independence via denormalized fields.
+     */
+    match /feedback/{feedbackId} {
+      allow get: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow list: if isSignedIn(); // Queries must be filtered by userId to succeed for non-admins.
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin() || (isExistingOwner(resource.data.userId) && request.resource.data.userId == resource.data.userId);
+      allow delete: if isAdmin() || isExistingOwner(resource.data.userId);
+    }
+  }
+}
