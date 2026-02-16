@@ -93,36 +93,36 @@ export function RecruitmentStepper() {
   if (step === 4) {
     return (
       <div className="text-center py-12 space-y-4">
-        <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto" />
-        <h3 className="text-2xl font-headline font-bold text-wiePurple">Thank You!</h3>
+        <CheckCircle2 className="w-16 h-16 text-primary mx-auto" />
+        <h3 className="text-2xl font-headline font-bold text-white">Thank You!</h3>
         <p className="text-muted-foreground">Your application is being processed. Check your email for next steps.</p>
-        <Button onClick={() => window.location.href = '/'}>Back to Home</Button>
+        <Button className="bg-primary hover:bg-primary/90 rounded-full px-8" onClick={() => window.location.href = '/'}>Back to Home</Button>
       </div>
     );
   }
 
   return (
-    <div className="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-xl border border-border">
+    <div className="max-w-xl mx-auto bg-secondary/20 p-8 rounded-[2.5rem] shadow-2xl border border-white/5 backdrop-blur-md">
       <div className="flex justify-between mb-8">
         {[1, 2, 3].map((s) => (
           <div key={s} className="flex items-center">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors ${
-              step >= s ? 'bg-wiePurple text-white' : 'bg-muted text-muted-foreground'
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all ${
+              step >= s ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-white/5 text-white/40'
             }`}>
               {s}
             </div>
-            {s < 3 && <div className={`w-12 h-1 bg-muted mx-2 ${step > s ? 'bg-wiePurple' : ''}`} />}
+            {s < 3 && <div className={`w-12 h-1 bg-white/5 mx-2 ${step > s ? 'bg-primary' : ''}`} />}
           </div>
         ))}
       </div>
 
       <div className="mb-6 flex justify-end">
         <Button 
-          variant="outline" 
+          variant="ghost" 
           size="sm" 
           onClick={handleAIPreFill}
           disabled={loading}
-          className="text-wiePurple border-wiePurple hover:bg-wiePurple/10 gap-2"
+          className="text-primary hover:bg-primary/10 gap-2 font-bold"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
           AI Pre-fill
@@ -132,85 +132,92 @@ export function RecruitmentStepper() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {step === 1 && (
           <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2">
-            <h3 className="text-xl font-bold font-headline text-wiePurple">Personal Details</h3>
+            <h3 className="text-xl font-bold font-headline text-white">Personal Details</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>First Name</Label>
+                <Label className="text-white/70">First Name</Label>
                 <Input 
                   value={formData.firstName} 
                   onChange={e => setFormData({...formData, firstName: e.target.value})} 
                   placeholder="Jane"
+                  className="bg-black/20 border-white/10 text-white rounded-xl h-12"
                 />
               </div>
               <div className="space-y-2">
-                <Label>Last Name</Label>
+                <Label className="text-white/70">Last Name</Label>
                 <Input 
                   value={formData.lastName} 
                   onChange={e => setFormData({...formData, lastName: e.target.value})} 
                   placeholder="Doe"
+                  className="bg-black/20 border-white/10 text-white rounded-xl h-12"
                 />
               </div>
             </div>
             <div className="space-y-2">
-              <Label>Email Address</Label>
+              <Label className="text-white/70">Email Address</Label>
               <Input 
                 type="email" 
                 value={formData.email} 
                 onChange={e => setFormData({...formData, email: e.target.value})} 
                 placeholder="jane@example.com"
+                className="bg-black/20 border-white/10 text-white rounded-xl h-12"
               />
             </div>
-            <Button className="w-full bg-wiePurple" type="button" onClick={nextStep}>Next: Role Selection</Button>
+            <Button className="w-full bg-primary hover:bg-primary/90 text-white font-bold h-12 rounded-xl mt-4" type="button" onClick={nextStep}>Next: Role Selection</Button>
           </div>
         )}
 
         {step === 2 && (
           <div className="space-y-4 animate-in fade-in slide-in-from-right-2">
-            <h3 className="text-xl font-bold font-headline text-wiePurple">Choose Your Role</h3>
+            <h3 className="text-xl font-bold font-headline text-white">Choose Your Role</h3>
             <div className="space-y-3">
               {ROLES.map((r) => (
                 <div 
                   key={r.id}
                   onClick={() => setFormData({...formData, role: r.id})}
-                  className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                    formData.role === r.id ? 'border-wiePurple bg-wiePurple/5' : 'border-border hover:border-wiePurple/50'
+                  className={`p-5 rounded-2xl border transition-all ${
+                    formData.role === r.id 
+                      ? 'border-primary bg-primary/10 text-white' 
+                      : 'border-white/5 bg-black/20 text-white/70 hover:border-primary/50 cursor-pointer'
                   }`}
                 >
-                  <div className="font-bold">{r.name}</div>
-                  <div className="text-sm text-muted-foreground">{r.description}</div>
+                  <div className="font-bold mb-1">{r.name}</div>
+                  <div className="text-xs opacity-60">{r.description}</div>
                 </div>
               ))}
             </div>
-            <div className="flex gap-4">
-              <Button variant="outline" className="flex-1" type="button" onClick={prevStep}>Back</Button>
-              <Button className="flex-1 bg-wiePurple" type="button" disabled={!formData.role} onClick={nextStep}>Next: Motivation</Button>
+            <div className="flex gap-4 mt-6">
+              <Button variant="outline" className="flex-1 border-white/10 text-white h-12 rounded-xl" type="button" onClick={prevStep}>Back</Button>
+              <Button className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold h-12 rounded-xl" type="button" disabled={!formData.role} onClick={nextStep}>Next: Motivation</Button>
             </div>
           </div>
         )}
 
         {step === 3 && (
           <div className="space-y-4 animate-in fade-in slide-in-from-right-2">
-            <h3 className="text-xl font-bold font-headline text-wiePurple">Experience & Motivation</h3>
+            <h3 className="text-xl font-bold font-headline text-white">Experience & Motivation</h3>
             <div className="space-y-2">
-              <Label>Why do you want to join WIE?</Label>
+              <Label className="text-white/70">Why do you want to join WIE?</Label>
               <Textarea 
                 value={formData.motivation} 
                 onChange={e => setFormData({...formData, motivation: e.target.value})} 
                 rows={4}
                 placeholder="Share your passion..."
+                className="bg-black/20 border-white/10 text-white rounded-xl"
               />
             </div>
             <div className="space-y-2">
-              <Label>Key Skills</Label>
+              <Label className="text-white/70">Key Skills</Label>
               <Input 
                 value={formData.skills} 
                 onChange={e => setFormData({...formData, skills: e.target.value})} 
                 placeholder="e.g. Graphic Design, Public Speaking, Python"
+                className="bg-black/20 border-white/10 text-white rounded-xl h-12"
               />
             </div>
-            <div className="flex gap-4">
-              <Button variant="outline" className="flex-1" type="button" onClick={prevStep}>Back</Button>
-              <Button className="flex-1 bg-wiePurple" type="submit">Submit Application</Button>
+            <div className="flex gap-4 mt-6">
+              <Button variant="outline" className="flex-1 border-white/10 text-white h-12 rounded-xl" type="button" onClick={prevStep}>Back</Button>
+              <Button className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold h-12 rounded-xl" type="submit">Submit Application</Button>
             </div>
           </div>
         )}
