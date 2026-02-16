@@ -1,9 +1,8 @@
-
 "use client";
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Users, Calendar, Award, BookOpen } from 'lucide-react';
+import { Menu, X, Users, Calendar, Award, BookOpen, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -18,16 +17,16 @@ export function Navbar() {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-border">
+    <nav className="sticky top-0 z-50 bg-background/50 backdrop-blur-xl border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+        <div className="flex justify-between h-20 items-center">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-wiePurple rounded-lg flex items-center justify-center">
-                <span className="text-white font-headline font-bold text-xl">W</span>
+            <Link href="/" className="flex items-center space-x-3 group">
+              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
+                <Sparkles className="text-white w-6 h-6" />
               </div>
-              <span className="font-headline font-bold text-xl text-wiePurple hidden md:block">
-                IEEE WIE
+              <span className="font-headline font-black text-xl text-white hidden md:block tracking-tighter">
+                WIE HUB
               </span>
             </Link>
           </div>
@@ -37,14 +36,13 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-muted-foreground hover:text-wiePurple transition-colors flex items-center gap-1.5"
+                className="text-sm font-bold text-white/60 hover:text-primary transition-colors flex items-center gap-1.5 uppercase tracking-wider"
               >
-                <link.icon className="w-4 h-4" />
                 {link.name}
               </Link>
             ))}
             <Link href="/login">
-              <Button variant="outline" className="border-wiePurple text-wiePurple hover:bg-wiePurple/10">
+              <Button variant="ghost" className="text-white/80 hover:text-white hover:bg-white/5 font-bold uppercase tracking-wider text-xs">
                 Log In
               </Button>
             </Link>
@@ -53,7 +51,7 @@ export function Navbar() {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-muted-foreground hover:text-wiePurple p-2"
+              className="text-white/60 hover:text-primary p-2 transition-colors"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -62,13 +60,13 @@ export function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      <div className={cn("md:hidden bg-white border-b border-border", isOpen ? "block" : "hidden")}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <div className={cn("md:hidden bg-background/95 backdrop-blur-2xl border-b border-white/5 overflow-hidden transition-all duration-300", isOpen ? "max-h-96" : "max-h-0")}>
+        <div className="px-4 pt-2 pb-6 space-y-2">
           {navLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
-              className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-wiePurple hover:bg-wiePurple/5"
+              className="block px-4 py-3 rounded-2xl text-base font-bold text-white/70 hover:text-primary hover:bg-primary/10 transition-all"
               onClick={() => setIsOpen(false)}
             >
               <div className="flex items-center gap-3">
@@ -77,9 +75,9 @@ export function Navbar() {
               </div>
             </Link>
           ))}
-          <div className="pt-4 px-3">
+          <div className="pt-4 px-4">
             <Link href="/login" onClick={() => setIsOpen(false)}>
-              <Button className="w-full bg-wiePurple hover:bg-wiePurple/90">
+              <Button className="w-full bg-primary hover:bg-primary/90 text-white font-bold h-12 rounded-xl">
                 Log In
               </Button>
             </Link>
