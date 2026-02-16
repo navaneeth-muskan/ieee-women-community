@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview This file implements a Genkit flow for automated form completion.
@@ -48,23 +49,20 @@ const prompt = ai.definePrompt({
   name: 'automatedFormCompletionPrompt',
   input: {schema: AutomatedFormCompletionInputSchema},
   output: {schema: AutomatedFormCompletionOutputSchema},
-  prompt: `You are an AI assistant tasked with automatically pre-filling form fields based on provided member information.
-Your goal is to suggest values for the form fields that best match the member's profile.
-
-Form Schema Description:
-\`\`\`json
-{{{formSchemaDescription}}}
-\`\`\`
-
-Existing Member Information:
-\`\`\`json
-{{{memberInformation}}}
-\`\`\`
-
-Based on the Form Schema Description and Existing Member Information, provide the best suggestions for the form fields.
-Ensure the output is a JSON object matching the \`suggestedFormFields\` structure, where keys are field names and values are the suggested content.
-If a field cannot be directly inferred, leave its value as an empty string or null, or the most reasonable default.
-Consider the data types and options specified in the Form Schema Description when generating suggestions.`,
+  prompt: 'You are an AI assistant tasked with automatically pre-filling form fields based on provided member information. ' +
+    'Your goal is to suggest values for the form fields that best match the member\'s profile.\n\n' +
+    'Form Schema Description:\n' +
+    '```json\n' +
+    '{{{formSchemaDescription}}}\n' +
+    '```\n\n' +
+    'Existing Member Information:\n' +
+    '```json\n' +
+    '{{{memberInformation}}}\n' +
+    '```\n\n' +
+    'Based on the Form Schema Description and Existing Member Information, provide the best suggestions for the form fields. ' +
+    'Ensure the output is a JSON object matching the `suggestedFormFields` structure, where keys are field names and values are the suggested content. ' +
+    'If a field cannot be directly inferred, leave its value as an empty string or null, or the most reasonable default. ' +
+    'Consider the data types and options specified in the Form Schema Description when generating suggestions.',
 });
 
 const automatedFormCompletionFlow = ai.defineFlow(
