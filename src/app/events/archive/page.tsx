@@ -39,14 +39,14 @@ export default function EventArchivePage() {
 
   return (
     <div className="py-24 bg-background min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-20">
-          <div className="mb-6 flex justify-center">
-            <div className="w-16 h-16 bg-primary/10 border border-primary/20 rounded-3xl flex items-center justify-center shadow-[0_0_30px_rgba(255,77,77,0.1)]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-24">
+          <div className="mb-10 flex justify-center">
+            <div className="w-16 h-16 bg-primary/10 border border-primary/20 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(255,77,77,0.1)]">
               <BookOpen className="w-8 h-8 text-primary" />
             </div>
           </div>
-          <h1 className="font-headline text-5xl md:text-6xl font-black text-white mb-6 tracking-tight">
+          <h1 className="font-headline text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter">
             Past Event <span className="text-primary italic">Archive</span>
           </h1>
           <p className="text-lg text-white/50 max-w-2xl mx-auto font-body leading-relaxed">

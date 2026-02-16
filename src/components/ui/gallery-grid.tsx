@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface GalleryItem {
   id: string;
@@ -26,49 +27,61 @@ export function GalleryGrid({ items }: GalleryGridProps) {
     : items.filter(item => item.category === filter);
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-wrap gap-2 justify-center">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setFilter(cat)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              filter === cat 
-                ? 'bg-wiePurple text-white shadow-md' 
-                : 'bg-white text-muted-foreground hover:bg-wiePurple/10'
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
+    <div className="space-y-16">
+      {/* Filter Bar Container */}
+      <div className="flex justify-center">
+        <div className="bg-secondary/30 backdrop-blur-xl border border-white/5 p-2 rounded-[2rem] inline-flex gap-2 items-center shadow-2xl">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setFilter(cat)}
+              className={cn(
+                "px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300",
+                filter === cat 
+                  ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.2)]" 
+                  : "text-white/40 hover:text-white hover:bg-white/5"
+              )}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
 
+      {/* Grid Layout */}
       <motion.div 
         layout
-        className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6"
+        className="columns-1 md:columns-2 gap-8 space-y-8"
       >
         <AnimatePresence mode="popLayout">
           {filteredItems.map((item) => (
             <motion.div
               key={item.id}
               layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-              className="relative rounded-xl overflow-hidden group shadow-md"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="relative rounded-[2.5rem] overflow-hidden group border border-white/5 bg-secondary/20"
             >
-              <Image
-                src={item.image}
-                alt={item.title}
-                width={800}
-                height={600}
-                className="w-full object-cover rounded-xl"
-                data-ai-hint="event photo"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                <Badge className="w-fit mb-2 bg-wiePurple border-none">{item.category}</Badge>
-                <h4 className="text-white font-headline font-bold text-lg">{item.title}</h4>
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                  data-ai-hint="event photo"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+              </div>
+              
+              <div className="absolute bottom-0 left-0 right-0 p-10 flex flex-col justify-end">
+                <Badge className="w-fit mb-4 bg-primary text-white border-none shadow-lg shadow-primary/20 uppercase tracking-widest text-[10px] font-black px-4 py-1.5">
+                  {item.category}
+                </Badge>
+                <h4 className="text-white font-headline font-black text-2xl tracking-tight group-hover:text-primary transition-colors">
+                  {item.title}
+                </h4>
               </div>
             </motion.div>
           ))}
