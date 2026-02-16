@@ -52,17 +52,17 @@ const prompt = ai.definePrompt({
 Your goal is to suggest values for the form fields that best match the member's profile.
 
 Form Schema Description:
-```json
+\`\`\`json
 {{{formSchemaDescription}}}
-```
+\`\`\`
 
 Existing Member Information:
-```json
+\`\`\`json
 {{{memberInformation}}}
-```
+\`\`\`
 
 Based on the Form Schema Description and Existing Member Information, provide the best suggestions for the form fields.
-Ensure the output is a JSON object matching the `suggestedFormFields` structure, where keys are field names and values are the suggested content.
+Ensure the output is a JSON object matching the \`suggestedFormFields\` structure, where keys are field names and values are the suggested content.
 If a field cannot be directly inferred, leave its value as an empty string or null, or the most reasonable default.
 Consider the data types and options specified in the Form Schema Description when generating suggestions.`,
 });
