@@ -40,40 +40,42 @@ export default function MembershipPage() {
   ];
 
   return (
-    <div className="py-20">
+    <div className="py-24 bg-background min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Advocacy Hero */}
-        <div className="bg-wiePurple rounded-[2rem] p-12 md:p-20 text-white relative overflow-hidden mb-20 shadow-2xl">
+        <div className="bg-primary/10 border border-primary/20 rounded-[2.5rem] p-12 md:p-20 text-white relative overflow-hidden mb-20 shadow-2xl backdrop-blur-sm">
           <div className="relative z-10 max-w-2xl">
-            <Badge className="bg-white text-wiePurple mb-6">IEEE Membership</Badge>
-            <h1 className="font-headline text-4xl md:text-5xl font-bold mb-6 italic">Invest in Your Future</h1>
-            <p className="text-lg opacity-90 mb-10 leading-relaxed">
+            <Badge className="bg-primary text-white mb-6 font-bold px-4 py-1">IEEE Membership</Badge>
+            <h1 className="font-headline text-4xl md:text-6xl font-black mb-6 italic tracking-tight">Invest in Your Future</h1>
+            <p className="text-lg text-white/70 mb-10 leading-relaxed font-body">
               Becoming an IEEE WIE member means joining the world's largest professional organization 
               dedicated to advancing technology for the benefit of humanity.
             </p>
             <Link href="https://www.ieee.org/membership/join">
-              <Button size="lg" className="bg-ieeeBlue text-white hover:bg-ieeeBlue/90 shadow-lg px-10">
+              <Button size="lg" className="bg-primary text-white hover:bg-primary/90 shadow-xl shadow-primary/20 px-10 h-14 font-bold rounded-xl text-lg transition-all hover:scale-105">
                 Join IEEE WIE Now
               </Button>
             </Link>
           </div>
-          <div className="absolute top-0 right-0 w-1/3 h-full bg-ieeeBlue/10 skew-x-12 transform translate-x-20"></div>
+          <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 skew-x-12 transform translate-x-20"></div>
         </div>
 
         {/* Benefits Grid */}
         <div className="mb-20">
-          <h2 className="font-headline text-3xl font-bold text-wiePurple text-center mb-12">Exclusive Benefits</h2>
+          <h2 className="font-headline text-3xl md:text-4xl font-black text-white text-center mb-16 tracking-tight">
+            Exclusive <span className="text-primary italic">Benefits</span>
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {benefits.map((benefit, i) => (
-              <Card key={i} className="border-none shadow-md hover:shadow-xl transition-all hover:-translate-y-1">
+              <Card key={i} className="bg-secondary/20 border-white/5 rounded-[2rem] shadow-md hover:shadow-2xl transition-all hover:-translate-y-2 group">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-wiePurple/10 rounded-xl flex items-center justify-center mb-4">
-                    <benefit.icon className="w-6 h-6 text-wiePurple" />
+                  <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <benefit.icon className="w-7 h-7 text-primary" />
                   </div>
-                  <CardTitle className="font-headline text-xl text-wiePurple">{benefit.title}</CardTitle>
+                  <CardTitle className="font-headline text-2xl text-white font-bold tracking-tight">{benefit.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">{benefit.description}</p>
+                  <p className="text-white/50 leading-relaxed">{benefit.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -81,14 +83,14 @@ export default function MembershipPage() {
         </div>
 
         {/* FAQ/CTA */}
-        <div className="text-center bg-white p-12 rounded-[2rem] shadow-sm border border-border">
-          <h2 className="font-headline text-3xl font-bold text-wiePurple mb-6 italic">Ready to make an impact?</h2>
-          <p className="text-muted-foreground max-w-xl mx-auto mb-10">
+        <div className="text-center bg-secondary/10 p-12 md:p-20 rounded-[3rem] shadow-sm border border-white/5 backdrop-blur-sm">
+          <h2 className="font-headline text-3xl md:text-4xl font-black text-white mb-6 italic tracking-tight">Ready to make an impact?</h2>
+          <p className="text-white/60 max-w-xl mx-auto mb-10 text-lg leading-relaxed">
             WIE membership is free for Student and Graduate Student members who already have an IEEE membership!
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button className="bg-wiePurple hover:bg-wiePurple/90">Official WIE Benefits</Button>
-            <Button variant="outline">Learn about IEEE Chapters</Button>
+          <div className="flex flex-wrap justify-center gap-6">
+            <Button className="bg-primary hover:bg-primary/90 h-14 px-8 rounded-xl font-bold text-lg shadow-xl shadow-primary/20">Official WIE Benefits</Button>
+            <Button variant="outline" className="h-14 px-8 rounded-xl border-white/10 text-white font-bold text-lg hover:bg-white/5">Learn about Chapters</Button>
           </div>
         </div>
       </div>

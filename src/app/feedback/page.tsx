@@ -66,10 +66,10 @@ export default function FeedbackPage() {
   };
 
   return (
-    <div className="py-20 bg-background">
+    <div className="py-24 bg-background min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-5 border border-border">
-          <div className="md:col-span-2 bg-wiePurple p-12 text-white flex flex-col justify-between">
+        <div className="bg-secondary/20 rounded-[2.5rem] shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-5 border border-white/5 backdrop-blur-md">
+          <div className="md:col-span-2 bg-primary p-12 text-white flex flex-col justify-between">
             <div>
               <MessageSquare className="w-12 h-12 mb-6 opacity-50" />
               <h1 className="font-headline text-3xl font-bold mb-4 italic">Your Voice Matters</h1>
@@ -94,7 +94,7 @@ export default function FeedbackPage() {
                 variant="ghost" 
                 size="sm" 
                 onClick={handleAIPreFill}
-                className="text-wiePurple hover:bg-wiePurple/5 gap-2"
+                className="text-primary hover:bg-primary/5 gap-2 font-bold"
                 disabled={loading}
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
@@ -103,42 +103,45 @@ export default function FeedbackPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Name</Label>
+                  <Label className="text-white/70">Name</Label>
                   <Input 
                     value={formData.name} 
                     onChange={e => setFormData({...formData, name: e.target.value})} 
                     placeholder="Jane Doe"
+                    className="bg-black/20 border-white/10 text-white rounded-xl h-12"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Email</Label>
+                  <Label className="text-white/70">Email</Label>
                   <Input 
                     value={formData.email} 
                     onChange={e => setFormData({...formData, email: e.target.value})} 
                     placeholder="jane@ieee.org"
+                    className="bg-black/20 border-white/10 text-white rounded-xl h-12"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label>Event Attended</Label>
+                <Label className="text-white/70">Event Attended</Label>
                 <Input 
                   value={formData.event} 
                   onChange={e => setFormData({...formData, event: e.target.value})} 
                   placeholder="e.g. Women in AI Summit"
+                  className="bg-black/20 border-white/10 text-white rounded-xl h-12"
                 />
               </div>
 
               <div className="space-y-4">
-                <Label>Overall Experience</Label>
+                <Label className="text-white/70">Overall Experience</Label>
                 <div className="flex gap-2">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star
                       key={star}
                       className={`w-8 h-8 cursor-pointer transition-colors ${
-                        rating >= star ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
+                        rating >= star ? 'text-primary fill-primary' : 'text-white/10'
                       }`}
                       onClick={() => setRating(star)}
                     />
@@ -147,16 +150,17 @@ export default function FeedbackPage() {
               </div>
 
               <div className="space-y-2">
-                <Label>Comments</Label>
+                <Label className="text-white/70">Comments</Label>
                 <Textarea 
                   value={formData.comments} 
                   onChange={e => setFormData({...formData, comments: e.target.value})} 
                   placeholder="What did you love? What can we improve?"
                   rows={4}
+                  className="bg-black/20 border-white/10 text-white rounded-xl"
                 />
               </div>
 
-              <Button type="submit" className="w-full bg-wiePurple hover:bg-wiePurple/90 group py-6 text-lg font-bold">
+              <Button type="submit" className="w-full bg-primary hover:bg-primary/90 group h-14 text-lg font-bold rounded-xl shadow-xl shadow-primary/20">
                 Submit Feedback
                 <Send className="ml-2 w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </Button>
