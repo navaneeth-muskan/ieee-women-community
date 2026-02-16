@@ -4,6 +4,7 @@ import {Navbar} from '@/components/layout/navbar';
 import {Footer} from '@/components/layout/footer';
 import {Toaster} from '@/components/ui/toaster';
 import { FirebaseClientProvider } from '@/firebase';
+import { Chatbot } from '@/components/ui/chatbot';
 
 export const metadata: Metadata = {
   title: 'IEEE WIE Digital Hub',
@@ -29,6 +30,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
           <Toaster />
+          <Chatbot />
         </FirebaseClientProvider>
       </body>
     </html>
