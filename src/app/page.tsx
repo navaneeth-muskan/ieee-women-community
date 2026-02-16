@@ -1,29 +1,26 @@
+
+"use client";
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { EventCard } from '@/components/ui/event-card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ArrowRight, Star, Globe, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowRight, Globe, ShieldCheck, Sparkles, Loader2 } from 'lucide-react';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, limit, orderBy } from 'firebase/firestore';
 
 export default function Home() {
-  const upcomingEvents = [
-    {
-      id: '1',
-      title: 'Women in AI Summit',
-      date: 'Dec 15, 2024',
-      location: 'Main Auditorium',
-      image: PlaceHolderImages.find(img => img.id === 'event-workshop')?.imageUrl,
-      category: 'Workshop',
-    },
-    {
-      id: '2',
-      title: 'Tech Leadership Panel',
-      date: 'Jan 10, 2025',
-      location: 'Virtual Event',
-      image: PlaceHolderImages.find(img => img.id === 'event-networking')?.imageUrl,
-      category: 'Seminar',
-    }
-  ];
+  const firestore = useFirestore();
+
+  const upcomingQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'events'), orderBy('date', 'asc'), limit(2));
+  }, [firestore]);
+
+  const { data: upcomingEvents, isLoading } = useCollection(upcomingQuery);
+
+  const heroImage = PlaceHolderImages.find(img => img.id === 'hero-empower')?.imageUrl;
 
   return (
     <div className="w-full">
@@ -56,7 +53,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-6">
+        <div className="flex flex-col sm:row justify-center gap-6">
           <Link href="/recruitment">
             <Button size="lg" className="h-14 px-10 rounded-full bg-primary hover:bg-primary/90 text-white font-bold text-lg shadow-xl shadow-primary/20 transition-all hover:scale-105">
               Join the Movement
@@ -90,8 +87,8 @@ export default function Home() {
             ].map((t, i) => (
               <div key={i} className="bg-secondary/30 p-8 rounded-[2rem] border border-white/5 hover:border-primary/20 transition-all group">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-muted overflow-hidden">
-                    <Image src={`https://picsum.photos/seed/user${i}/100`} alt="user" width={40} height={40} />
+                  <div className="w-10 h-10 rounded-full bg-muted overflow-hidden relative">
+                    <Image src={`https://picsum.photos/seed/user${i}/100`} alt="user" fill className="object-cover" />
                   </div>
                   <div>
                     <div className="text-sm text-primary font-bold">{t.name}</div>
@@ -112,20 +109,35 @@ export default function Home() {
             <p className="text-muted-foreground max-w-xl mx-auto">The tech events that actually matter.</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {upcomingEvents.map((event) => (
-              <EventCard key={event.id} {...event} />
-            ))}
-            <div className="bg-primary/5 rounded-[2.5rem] p-10 border border-primary/10 flex flex-col justify-center text-center backdrop-blur-sm">
-              <h3 className="text-2xl font-bold text-white mb-4">Host an Event?</h3>
-              <p className="text-muted-foreground mb-8">Have a great idea for a technical session or networking mixer? Let us know!</p>
-              <Link href="/feedback">
-                <Button className="w-full rounded-full bg-primary text-white hover:bg-primary/90 py-6 font-bold">
-                  Suggest Idea
-                </Button>
-              </Link>
+          {isLoading ? (
+            <div className="flex justify-center py-20">
+              <Loader2 className="w-10 h-10 text-primary animate-spin" />
             </div>
-          </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {upcomingEvents?.map((event) => (
+                <EventCard 
+                  key={event.id} 
+                  id={event.id}
+                  title={event.title}
+                  date={event.date}
+                  location={event.category}
+                  image={event.imageUrls?.[0]}
+                  category={event.category}
+                  registrationLink={event.registrationLink}
+                />
+              ))}
+              <div className="bg-primary/5 rounded-[2.5rem] p-10 border border-primary/10 flex flex-col justify-center text-center backdrop-blur-sm min-h-[400px]">
+                <h3 className="text-2xl font-bold text-white mb-4">Host an Event?</h3>
+                <p className="text-muted-foreground mb-8">Have a great idea for a technical session or networking mixer? Let us know!</p>
+                <Link href="/feedback">
+                  <Button className="w-full rounded-full bg-primary text-white hover:bg-primary/90 py-6 font-bold">
+                    Suggest Idea
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </div>

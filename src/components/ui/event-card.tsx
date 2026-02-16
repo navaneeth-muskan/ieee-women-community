@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, MapPin, ArrowRight } from 'lucide-react';
@@ -13,13 +14,20 @@ interface EventCardProps {
   image?: string;
   category: string;
   isArchived?: boolean;
+  registrationLink?: string;
 }
 
-export function EventCard({ id, title, date, location, image, category, isArchived }: EventCardProps) {
+export function EventCard({ id, title, date, location, image, category, isArchived, registrationLink }: EventCardProps) {
+  const formattedDate = new Date(date).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  });
+
   return (
     <Card className="overflow-hidden group hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 bg-secondary/20 border-white/5 rounded-[2.5rem]">
       <div className="relative h-56 overflow-hidden">
-        {image && (
+        {image ? (
           <Image 
             src={image} 
             alt={title} 
@@ -27,6 +35,10 @@ export function EventCard({ id, title, date, location, image, category, isArchiv
             className="object-cover group-hover:scale-110 transition-transform duration-700 opacity-60 group-hover:opacity-100"
             data-ai-hint="event engineering"
           />
+        ) : (
+           <div className="w-full h-full bg-secondary flex items-center justify-center">
+             <Calendar className="w-12 h-12 text-white/10" />
+           </div>
         )}
         <div className="absolute top-6 left-6">
           <Badge className={isArchived ? "bg-white/10 text-white/50 backdrop-blur-md" : "bg-primary text-white shadow-xl shadow-primary/30"}>
@@ -40,7 +52,7 @@ export function EventCard({ id, title, date, location, image, category, isArchiv
       <CardContent className="px-8 pb-6 space-y-4">
         <div className="flex items-center text-sm text-white/60 gap-3">
           <Calendar className="w-4 h-4 text-primary" />
-          {date}
+          {formattedDate !== "Invalid Date" ? formattedDate : date}
         </div>
         <div className="flex items-center text-sm text-white/60 gap-3">
           <MapPin className="w-4 h-4 text-primary" />
@@ -48,12 +60,25 @@ export function EventCard({ id, title, date, location, image, category, isArchiv
         </div>
       </CardContent>
       <CardFooter className="px-8 pb-8 pt-0">
-        <Link href={`/events/${id}`} className="w-full">
-          <Button variant={isArchived ? "outline" : "default"} className={isArchived ? "w-full border-white/10 text-white/60" : "w-full bg-white/5 hover:bg-primary hover:text-white border-white/5 font-bold rounded-2xl h-14"}>
-            {isArchived ? 'View Summary' : 'Register Now'}
-            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </Link>
+        {isArchived ? (
+          <Link href={`/events/${id}`} className="w-full">
+            <Button variant="outline" className="w-full border-white/10 text-white/60 font-bold rounded-2xl h-14">
+              View Summary
+              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
+        ) : registrationLink ? (
+          <a href={registrationLink} target="_blank" rel="noopener noreferrer" className="w-full">
+            <Button className="w-full bg-white/5 hover:bg-primary hover:text-white border-white/5 font-bold rounded-2xl h-14 transition-all">
+              Register Now
+              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </a>
+        ) : (
+           <Button disabled className="w-full bg-white/5 border-white/5 text-white/20 font-bold rounded-2xl h-14">
+             Registration Closed
+           </Button>
+        )}
       </CardFooter>
     </Card>
   );

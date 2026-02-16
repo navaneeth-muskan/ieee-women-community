@@ -1,41 +1,27 @@
 
+"use client";
+
 import { GalleryGrid } from '@/components/ui/gallery-grid';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, Loader2 } from 'lucide-react';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, orderBy } from 'firebase/firestore';
 
 export default function EventArchivePage() {
-  const pastEvents = [
-    {
-      id: 'p1',
-      title: 'Robotics Seminar 2024',
-      image: PlaceHolderImages.find(img => img.id === 'past-event-1')?.imageUrl || 'https://picsum.photos/seed/wie-archive-1/800/600',
-      category: 'Workshops',
-    },
-    {
-      id: 'p2',
-      title: 'Leadership Summit',
-      image: PlaceHolderImages.find(img => img.id === 'past-event-2')?.imageUrl || 'https://picsum.photos/seed/wie-archive-2/800/600',
-      category: 'Socials',
-    },
-    {
-      id: 'p3',
-      title: 'Annual Coding Bootcamp',
-      image: PlaceHolderImages.find(img => img.id === 'past-event-3')?.imageUrl || 'https://picsum.photos/seed/wie-archive-3/800/600',
-      category: 'Seminars',
-    },
-    {
-      id: 'p4',
-      title: 'Networking Mixer',
-      image: PlaceHolderImages.find(img => img.id === 'event-networking')?.imageUrl || 'https://picsum.photos/seed/wie-archive-4/800/600',
-      category: 'Socials',
-    },
-    {
-      id: 'p5',
-      title: 'Cybersecurity Intensive',
-      image: PlaceHolderImages.find(img => img.id === 'event-workshop')?.imageUrl || 'https://picsum.photos/seed/wie-archive-5/800/600',
-      category: 'Workshops',
-    },
-  ];
+  const firestore = useFirestore();
+
+  const archiveQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'archivedEvents'), orderBy('date', 'desc'));
+  }, [firestore]);
+
+  const { data: archivedEvents, isLoading } = useCollection(archiveQuery);
+
+  const galleryItems = archivedEvents?.map(event => ({
+    id: event.id,
+    title: event.title,
+    image: event.imageUrls?.[0] || 'https://picsum.photos/seed/' + event.id + '/800/600',
+    category: event.category,
+  })) || [];
 
   return (
     <div className="py-24 bg-background min-h-screen">
@@ -54,7 +40,17 @@ export default function EventArchivePage() {
           </p>
         </div>
 
-        <GalleryGrid items={pastEvents} />
+        {isLoading ? (
+          <div className="flex justify-center items-center py-20">
+            <Loader2 className="w-10 h-10 text-primary animate-spin" />
+          </div>
+        ) : galleryItems.length > 0 ? (
+          <GalleryGrid items={galleryItems} />
+        ) : (
+          <div className="text-center py-20">
+            <p className="text-white/40 text-lg">Our history is still being written.</p>
+          </div>
+        )}
       </div>
     </div>
   );
